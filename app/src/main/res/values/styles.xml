@@ -8,5 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
+    <style name="AppToolbar" parent="AppTheme">
+        <item name="android:textColorSecondary">@color/colorWhite</item>
+    </style>
+    <style name="AppToolbarPopup" parent="AppTheme">
+        <item name="actionMenuTextColor">@color/textPrimary</item>
+    </style>
 
 </resources>

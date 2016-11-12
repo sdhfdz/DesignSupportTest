@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     }
 
 
-    public void closeDrawer(){
+    public void openDrawer(){
         drawer.openDrawer(navigationView);
     }
 }

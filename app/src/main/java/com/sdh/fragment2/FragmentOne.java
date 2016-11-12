@@ -3,16 +3,23 @@ package com.sdh.fragment2;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdh.designsupporttest.Find_tab_Adapter;
 import com.sdh.designsupporttest.MainActivity;
@@ -48,10 +55,12 @@ public class FragmentOne extends Fragment {
     private Find_hotToday hotToday;                                      //今日热榜fragment
 
     private ImageView toshow;
+    private Toolbar toolbar;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.activity_main,container,false);
+        setHasOptionsMenu(true);
         initView(view);
         return view;
     }
@@ -59,6 +68,17 @@ public class FragmentOne extends Fragment {
     private void initView(View view) {
         tab_FindFragment_title = (TabLayout)view.findViewById(R.id.tab_FindFragment_title);
         vp_FindFragment_pager = (ViewPager)view.findViewById(R.id.vp_FindFragment_pager);
+        toolbar= (Toolbar) view.findViewById(R.id.toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity parentActivity = (MainActivity ) getActivity();
+                parentActivity.openDrawer();
+                System.out.println("KKKKKKKKKKKKKKKKKKKK");
+            }
+        });
         View mainactivityView=View.inflate(getActivity(),R.layout.main,null);
        navigationView= (NavigationView)mainactivityView.findViewById(R.id.nv_main_navigation);
        drawer= (DrawerLayout) mainactivityView.findViewById(R.id.drawer);
@@ -67,8 +87,8 @@ public class FragmentOne extends Fragment {
             @Override
             public void onClick(View v) {
                 MainActivity parentActivity = (MainActivity ) getActivity();
-                parentActivity.closeDrawer();
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
+                parentActivity.openDrawer();
+
 
             }
         });
@@ -129,5 +149,37 @@ public class FragmentOne extends Fragment {
         tab_FindFragment_title.setupWithViewPager(vp_FindFragment_pager);
         //tab_FindFragment_title.set
     }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.toolbar_demo_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.search:
+                showToast("搜索功能尚未开放");
+                break;
+            case R.id.notification:
+                showToast("暂时没有未读的通知");
+                break;
+            case R.id.feedback:
+                showToast("客服还没有上班~");
+                break;
+            case R.id.about:
+                showToast("关于页面还在路上~");
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
 
 }
