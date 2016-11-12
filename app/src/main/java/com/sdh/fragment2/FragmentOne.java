@@ -1,7 +1,10 @@
 package com.sdh.fragment2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -24,6 +27,7 @@ import android.widget.Toast;
 import com.sdh.designsupporttest.Find_tab_Adapter;
 import com.sdh.designsupporttest.MainActivity;
 import com.sdh.designsupporttest.R;
+import com.sdh.designsupporttest.SecondActivity;
 import com.sdh.fragment.Find_hotCollectionFragment;
 import com.sdh.fragment.Find_hotMonthFragment;
 import com.sdh.fragment.Find_hotRecommendFragment;
@@ -56,6 +60,8 @@ public class FragmentOne extends Fragment {
 
     private ImageView toshow;
     private Toolbar toolbar;
+    private FloatingActionButton fab;
+    private CoordinatorLayout coorll;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,6 +75,7 @@ public class FragmentOne extends Fragment {
         tab_FindFragment_title = (TabLayout)view.findViewById(R.id.tab_FindFragment_title);
         vp_FindFragment_pager = (ViewPager)view.findViewById(R.id.vp_FindFragment_pager);
         toolbar= (Toolbar) view.findViewById(R.id.toolbar);
+        coorll= (CoordinatorLayout) view.findViewById(R.id.coorll);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -77,6 +84,18 @@ public class FragmentOne extends Fragment {
                 MainActivity parentActivity = (MainActivity ) getActivity();
                 parentActivity.openDrawer();
                 System.out.println("KKKKKKKKKKKKKKKKKKKK");
+            }
+        });
+        fab= (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(coorll,"憋点我",Snackbar.LENGTH_LONG).setAction("Action", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), SecondActivity.class));
+                    }
+                }).show();
             }
         });
         View mainactivityView=View.inflate(getActivity(),R.layout.main,null);
