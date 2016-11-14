@@ -49,9 +49,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     private DrawerLayout drawer;
     private NavigationView navigationView;
 
-
-
-
     private BottomNavigationBar mBottomBar;
     private FragmentOne fragmentOne;
     private FragmentTwo fragmentTwo;
