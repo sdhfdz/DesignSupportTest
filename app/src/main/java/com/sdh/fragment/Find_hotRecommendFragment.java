@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -61,7 +62,8 @@ public class Find_hotRecommendFragment extends Fragment implements SwipeRefreshL
         View view=inflater.inflate(R.layout.recommendfragment,container,false);
         swipeRef= (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
         recyclerView= (RecyclerView) view.findViewById(R.id.recycleview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2);
+        recyclerView.setLayoutManager(layoutManager);
         swipeRef.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_bright), getResources().getColor(android.R.color.holo_green_light),
                 getResources().getColor(android.R.color.holo_green_light), getResources().getColor(android.R.color.holo_red_light));
         swipeRef.setOnRefreshListener(this);
@@ -71,6 +73,7 @@ public class Find_hotRecommendFragment extends Fragment implements SwipeRefreshL
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
                         .getDisplayMetrics()));
         myAdapter=new HomeAdapter();
+        
         recyclerView.setAdapter(myAdapter);
         return view;
     }
