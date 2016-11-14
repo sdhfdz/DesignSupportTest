@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -19,6 +21,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sdh.designsupporttest.R;
 import com.sdh.designsupporttest.sampleAdapter;
@@ -94,9 +97,15 @@ public class Find_hotRecommendFragment extends Fragment implements SwipeRefreshL
         }
 
         @Override
-        public void onBindViewHolder(MyViewHolder holder, int position)
+        public void onBindViewHolder(MyViewHolder holder, final int position)
         {
             holder.tv.setText(datas.get(position)+"");
+            holder.cardview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), "这是位置"+position, Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
@@ -109,11 +118,14 @@ public class Find_hotRecommendFragment extends Fragment implements SwipeRefreshL
         {
 
             TextView tv;
+            CardView cardview;
+
 
             public MyViewHolder(View view)
             {
                 super(view);
                 tv = (TextView) view.findViewById(R.id.id_num);
+                cardview= (CardView) view.findViewById(R.id.cardview);
             }
         }
     }
