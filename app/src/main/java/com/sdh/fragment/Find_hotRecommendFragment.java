@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sdh.designsupporttest.R;
+import com.sdh.designsupporttest.sampleAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
