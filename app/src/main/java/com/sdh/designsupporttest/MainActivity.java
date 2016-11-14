@@ -1,6 +1,7 @@
 package com.sdh.designsupporttest;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -42,7 +44,7 @@ import static com.sdh.designsupporttest.R.id.tab_FindFragment_title;
 import static com.sdh.designsupporttest.R.id.toshow;
 import static com.sdh.designsupporttest.R.id.vp_FindFragment_pager;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener {
+public class MainActivity extends AppCompatActivity implements BottomNavigationBar.OnTabSelectedListener{
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -75,8 +77,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
             public boolean onNavigationItemSelected(MenuItem item) {
                 item.setChecked(true);
                 drawer.closeDrawers();
-//                mDrawerLayout.closeDrawers();
+                switch (item.getItemId()) {
+                    case R.id.spring:
+                        showtoast("春");
+                        break;
+                    case R.id.summer:
+                        showtoast("夏");
+                        break;
+                    case R.id.Autumn:
+                        showtoast("秋");
+                        break;
+                    case R.id.winter:
+                        showtoast("冬");
+                        break;
+                    case R.id.Android:
+                        showtoast("Android");
+                        break;
+                    case R.id.IOS:
+                        showtoast("IOS");
+                        break;
+                }
                 return true;
+
             }
         });
     }
@@ -198,4 +220,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationB
     public void openDrawer(){
         drawer.openDrawer(navigationView);
     }
+
+    private void showtoast(String msg){
+        Toast.makeText(MainActivity.this,msg,Toast.LENGTH_SHORT).show();
+    }
+
 }
