@@ -1,9 +1,17 @@
 package com.sdh.fragment;
 
 
+import android.content.Intent;
+import android.content.SyncStatusObserver;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,51 +22,98 @@ import android.widget.TextView;
 
 import com.sdh.designsupporttest.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by sdh on 2016-11-11.
  */
-
-public class Find_hotRecommendFragment extends Fragment {
+public class Find_hotRecommendFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener  {
+    private SwipeRefreshLayout swipeRef;
+    private RecyclerView recyclerView;
+    private Handler handler;
+    private List<Integer> datas;
+    private HomeAdapter myAdapter;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle=getArguments();
         String text=bundle.getString("str");
-        View view=inflater.inflate(R.layout.layoutfrag,container,false);
-        TextView tv= (TextView) view.findViewById(R.id.tv);
-        tv.setText(text);
-        ListView listView= (ListView) view.findViewById(R.id.listview);
-        listView.setAdapter(new BaseAdapter() {
+        datas=new ArrayList<>();
+        for (int i=0;i<100;i++){
+            datas.add(i);
+        }
+        handler=new Handler(){
             @Override
-            public int getCount() {
-                return 100;
-            }
+            public void handleMessage(Message msg) {
 
-            @Override
-            public Object getItem(int position) {
-                return null;
+                if (swipeRef.isRefreshing()){
+                    datas.add(0,1234);
+                    myAdapter.notifyDataSetChanged();
+                    swipeRef.setRefreshing(false);
+                }
             }
+        };
+        View view=inflater.inflate(R.layout.recommendfragment,container,false);
+        swipeRef= (SwipeRefreshLayout) view.findViewById(R.id.swipe_refresh_widget);
+        recyclerView= (RecyclerView) view.findViewById(R.id.recycleview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        swipeRef.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_bright), getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_green_light), getResources().getColor(android.R.color.holo_red_light));
+        swipeRef.setOnRefreshListener(this);
 
-            @Override
-            public long getItemId(int position) {
-                return 0;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                View view=null;
-//                if (convertView==null){
-//                    view=View.inflate(getActivity(),R.layout.list_item,null);
-//                }else{
-//                    view=convertView;
-//                }
-                view=View.inflate(getActivity(),R.layout.list_item,null);
-                TextView tv= (TextView) view.findViewById(R.id.item_tv);
-                System.out.println(tv+"LLLLLLLLLLLLLLLLLLl");
-              tv.setText(position+"");
-                return view;
-            }
-        });
+        // 这句话是为了，第一次进入页面的时候显示加载进度条
+        swipeRef.setProgressViewOffset(false, 0, (int) TypedValue
+                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
+                        .getDisplayMetrics()));
+        myAdapter=new HomeAdapter();
+        recyclerView.setAdapter(myAdapter);
         return view;
+    }
+
+    @Override
+    public void onRefresh() {
+        System.out.println("开始刷新了");
+        Message message=new Message();
+
+        handler.sendMessageDelayed(message,2000);
+
+    }
+
+    class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MyViewHolder>
+    {
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            MyViewHolder holder = new MyViewHolder(LayoutInflater.from(
+                    getActivity()).inflate(R.layout.item_home, parent,
+                    false));
+            return holder;
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder holder, int position)
+        {
+            holder.tv.setText(datas.get(position)+"");
+        }
+
+        @Override
+        public int getItemCount()
+        {
+            return datas.size();
+        }
+
+        class MyViewHolder extends RecyclerView.ViewHolder
+        {
+
+            TextView tv;
+
+            public MyViewHolder(View view)
+            {
+                super(view);
+                tv = (TextView) view.findViewById(R.id.id_num);
+            }
+        }
     }
 }
