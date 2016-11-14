@@ -43,7 +43,7 @@ public class Find_hotRecommendFragment extends Fragment implements SwipeRefreshL
     private SwipeRefreshLayout swipeRef;
     private RecyclerView recyclerView;
     private Handler handler;
-    private List<Integer> datas;
+    private List<String> datas;
     private HomeAdapter myAdapter;
     private ArrayList<View> pageview;
 
@@ -64,14 +64,14 @@ public class Find_hotRecommendFragment extends Fragment implements SwipeRefreshL
         }
         datas=new ArrayList<>();
         for (int i=0;i<100;i++){
-            datas.add(i);
+            datas.add(i+"");
         }
         handler=new Handler(){
             @Override
             public void handleMessage(Message msg) {
 
                 if (swipeRef.isRefreshing()){
-                    datas.add(0,1234);
+                    datas.add(1,"new");
                     myAdapter.notifyDataSetChanged();
                     swipeRef.setRefreshing(false);
                 }
@@ -141,6 +141,7 @@ public class Find_hotRecommendFragment extends Fragment implements SwipeRefreshL
 
             if (holder!=null && holder instanceof MyViewHolder){
                 ((MyViewHolder)holder).tv.setText(datas.get(position)+"");
+                System.out.println(datas.size()+"----------------------------");
                 ((MyViewHolder)holder).cardview.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
